@@ -195,7 +195,7 @@ namespace Duathlon
         private void PrintSignUp(Competition competitionFilter)
         {
             _Printer.Print(new PrintJob<Starter>(
-                sa => sa.Where(s => competitionFilter.HasFlag(s.Competition)).OrderBy(s => s.Self.LastName).ToArray(),
+                sa => sa.Where(s => competitionFilter.HasFlag(s.Competition)).ToArray(),
                 $"Voranmeldung für {CompetitionLocalization(competitionFilter, CurrentYear)} {ProgramName}",
                 new PrintColumn<Starter>("Nr", s => (_Starters.GetIndex(s) + 1).ToString(), doAlignRight: true),
                 new PrintColumn<Starter>("Vorname", s => String.IsNullOrWhiteSpace(s.TeamName) ? s.Self.FirstName : s.Self.LastName),
