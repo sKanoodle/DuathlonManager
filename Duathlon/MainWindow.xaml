@@ -158,6 +158,16 @@
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              Width="200" Margin="500,0,0,0" />
+                    <TextBlock x:Name="tblPersonCount"
+                               Grid.Row="0"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Right"
+                               Width="150"/>
+                    <TextBlock x:Name="tblStarterCount"
+                               Grid.Row="0"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Right"
+                               Width="150" Margin="0,0,150,0"/>
                     <DataGrid x:Name="dgOverview" 
 						Grid.Row="1" 
 						HorizontalAlignment="Stretch" 

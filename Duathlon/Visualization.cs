@@ -17,12 +17,15 @@ namespace Duathlon
         private Competition _CurrentDataGridScope;
         public MyRow[] DataGridRows { get; private set; }
         private TabControl _TC;
+        private TextBlock _PersonCount, _StarterCount;
 
-        public Visualization(DataGrid grid, ref StarterWrapper starters, TabControl tc)
+        public Visualization(DataGrid grid, ref StarterWrapper starters, TabControl tc, TextBlock personCount, TextBlock starterCount)
         {
             _TC = tc;
             _Display = grid;
             _Starters = starters;
+            _StarterCount = starterCount;
+            _PersonCount = personCount;
         }
 
         public void SelectTab(TabItems item)
@@ -47,8 +50,14 @@ namespace Duathlon
             else
                 _CurrentDataGridScope = competitions;
 
-            DataGridRows = _Starters.Starters
+            var filteredStarters = _Starters.Starters
                 .Where(s => s.HasValue && competitions.HasFlag(s.Competition))
+                .ToArray();
+
+            _StarterCount.Text = $"Starter: {filteredStarters.Length}";
+            _PersonCount.Text = $"Personen: {filteredStarters.Select(s => String.IsNullOrWhiteSpace(s.TeamName) ? 1 : 2).Sum()}";
+                
+            DataGridRows = filteredStarters
                 .Select(s => new MyRow(s, _Starters.GetIndex(s) + 1))
                 .ToArray();
             _Display.ItemsSource = DataGridRows;

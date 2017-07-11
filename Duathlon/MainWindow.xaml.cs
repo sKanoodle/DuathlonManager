@@ -43,7 +43,7 @@ namespace Duathlon
         {
             Statics.LoadSettings();
             GoogleImporter.SetGoogleStuff(googleImportGrid, hlGoogleLink);
-            _Grid = new Visualization(dgOverview, ref _Starters, tabControl);
+            _Grid = new Visualization(dgOverview, ref _Starters, tabControl, tblPersonCount, tblStarterCount);
             _Time = new TimeKeeper(ref _Starters, _Grid, tiTime.Content as Grid);
             _Filter = new CBFilter(_Grid, cb1, cb2);
             _Edit = new StarterEditer(tiEdit.Content as Grid, Edit, Delete, ref _Starters, _Grid);
