@@ -52,11 +52,24 @@ namespace Duathlon
             StarterIO.NameChanged += ChangeProgramTitle;
 
             SetYear(_Starters.CurrentYear);
-            
-            imgNewDoc.Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"\images\newDoc.png"));
-            imgSave.Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"\images\save.png"));
-            imgSaveAs.Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"\images\saveAs.png"));
-            imgOpen.Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"\images\open.png"));
+
+            Dictionary<Image, string> initPics = new Dictionary<Image, string>
+            {
+                [imgNewDoc] = "newDoc.png",
+                [imgSave] = "save.png",
+                [imgSaveAs] = "saveAs.png",
+                [imgOpen] = "open.png",
+            };
+
+            foreach (var kvp in initPics)
+            {
+                BitmapImage img = new BitmapImage();
+                img.BeginInit();
+                img.UriSource = new Uri($"pack://application:,,,/Duathlon;component/images/{kvp.Value}");
+                img.EndInit();
+
+                kvp.Key.Source = img;
+            }
 
             tbCurrentYear.Text = _Starters.CurrentYear.ToString();
             tbCurrentYear.TextChanged += CurrentYearInput_Changed;
