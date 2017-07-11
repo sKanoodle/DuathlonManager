@@ -280,35 +280,44 @@ namespace Duathlon
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            int no = (int)_NumberPicker.SelectedItem - 1;
-            _Starters[(int)_NumberPicker.Items[_NumberPicker.Items.Count - 1] - 1] = new Starter();
+            int newIndex = (int)_NumberPicker.SelectedItem - 1;
+            int oldIndex = (int)_NumberPicker.Items[_NumberPicker.Items.Count - 1] - 1;
 
-            _Starters[no].HasValue = true;
-            _Starters[no].Self.FirstName = _Surname.Text;
-            _Starters[no].Self.LastName = _Name.Text;
-            _Starters[no].Self.IsMale = (bool)_IsMale.IsChecked;
-            _Starters[no].Self.YoB = (int)_YoB.SelectedItem;
-            _Starters[no].Self.Club = _Club.Text;
-            _Starters[no].Self.E_Mail = _EMail.Text;
+            if (oldIndex != newIndex)
+            {
+                _Starters[newIndex].SwimTime = _Starters[oldIndex].SwimTime;
+                _Starters[newIndex].SwimPlace = _Starters[oldIndex].SwimPlace;
+                _Starters[newIndex].RunPlace = _Starters[oldIndex].RunPlace;
+                _Starters[newIndex].Time = _Starters[oldIndex].Time;
+                _Starters[newIndex].Place = _Starters[oldIndex].Place;
+                _Starters[oldIndex] = new Starter();
+            }
 
-            _Starters[no].TeamName = _RelayTeamName.Text;
+            _Starters[newIndex].HasValue = true;
+            _Starters[newIndex].Self.FirstName = _Surname.Text;
+            _Starters[newIndex].Self.LastName = _Name.Text;
+            _Starters[newIndex].Self.IsMale = (bool)_IsMale.IsChecked;
+            _Starters[newIndex].Self.YoB = (int)_YoB.SelectedItem;
+            _Starters[newIndex].Self.Club = _Club.Text;
+            _Starters[newIndex].Self.E_Mail = _EMail.Text;
+            _Starters[newIndex].TeamName = _RelayTeamName.Text;
             if (!(_RelayTeamName.Text == ""))
             {
-                _Starters[no].Partner.FirstName = _RelaySurname.Text;
-                _Starters[no].Partner.LastName = _RelayName.Text;
-                _Starters[no].Partner.IsMale = (bool)_RelayIsMale.IsChecked;
-                _Starters[no].Partner.YoB = (int)_RelayYoB.SelectedItem;
-                _Starters[no].Partner.Club = _RelayClub.Text;
-                _Starters[no].Partner.E_Mail = _RelayEMail.Text;
+                _Starters[newIndex].Partner.FirstName = _RelaySurname.Text;
+                _Starters[newIndex].Partner.LastName = _RelayName.Text;
+                _Starters[newIndex].Partner.IsMale = (bool)_RelayIsMale.IsChecked;
+                _Starters[newIndex].Partner.YoB = (int)_RelayYoB.SelectedItem;
+                _Starters[newIndex].Partner.Club = _RelayClub.Text;
+                _Starters[newIndex].Partner.E_Mail = _RelayEMail.Text;
             }
 
             bool doThrowAway;
-            _Starters[no].Competition = StarterWrapper.GetCompetition(
+            _Starters[newIndex].Competition = StarterWrapper.GetCompetition(
                 out doThrowAway,
                 competition: (string)_Competition.SelectedItem, 
-                isMale: _Starters[no].Self.IsMale,
-                optionalAge: _Starters.CurrentYear - _Starters[no].Self.YoB, 
-                optionalRelayIsMale: _Starters[no].Partner.IsMale);
+                isMale: _Starters[newIndex].Self.IsMale,
+                optionalAge: _Starters.CurrentYear - _Starters[newIndex].Self.YoB, 
+                optionalRelayIsMale: _Starters[newIndex].Partner.IsMale);
             if (doThrowAway)
                 MessageBox.Show("Konnte keine Wettkampfklasse zuweisen", "Achtung!");
 
