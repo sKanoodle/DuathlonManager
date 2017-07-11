@@ -63,12 +63,7 @@ namespace Duathlon
 
             foreach (var kvp in initPics)
             {
-                BitmapImage img = new BitmapImage();
-                img.BeginInit();
-                img.UriSource = new Uri($"pack://application:,,,/Duathlon;component/images/{kvp.Value}");
-                img.EndInit();
-
-                kvp.Key.Source = img;
+                kvp.Key.Source = new BitmapImage(new Uri($"images/{kvp.Value}", UriKind.Relative));
             }
 
             tbCurrentYear.Text = _Starters.CurrentYear.ToString();
