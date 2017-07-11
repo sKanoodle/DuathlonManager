@@ -652,6 +652,8 @@
                             <Button x:Name="cmdDeleteNoArray"
                                     Content="Löschen"
                                     Width="75"/>
+                            <Border BorderThickness="10" />
+                            <TextBlock HorizontalAlignment="Center"/>
                         </StackPanel>
                         <ListBox x:Name="lbDisplayTimes"
                                  Height="auto"
@@ -675,6 +677,8 @@
                             <Button x:Name="cmdDeleteNoArrayOverall"
                                     Content="Löschen"
                                     Width="75"/>
+                            <Border BorderThickness="10" />
+                            <TextBlock HorizontalAlignment="Center"/>
                         </StackPanel>
                         <ListBox x:Name="lbDisplayTimesOverall"
                                  Height="auto"

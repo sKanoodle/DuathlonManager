@@ -15,6 +15,7 @@ namespace Duathlon
         private ListBox _Times;
         private Stopwatch _Watch;
         private TimeEditer _Editer;
+        private TextBlock _Count;
 
         /* UIElementCollection panel.Children
         **     [0] StackPanel
@@ -24,6 +25,8 @@ namespace Duathlon
         **         [3] Border   space
         **         [4] Button   edit
         **         [5] Button   delete
+        *          [6] Border   space
+        *          [7] TextBlock  count of times
         **     [1] ListBox      time elements with start number and time
         */
         public TimeCollector(StackPanel panel, Stopwatch watch, TimeEditer editer)
@@ -36,6 +39,7 @@ namespace Duathlon
             _Add = temp.Children[2] as Button;
             _Edit = temp.Children[4] as Button;
             _Delete = temp.Children[5] as Button;
+            _Count = temp.Children[7] as TextBlock;
             _Times = panel.Children[1] as ListBox;
 
             _NumberIn.KeyDown += NumberIn_KeyDown;
@@ -102,6 +106,7 @@ namespace Duathlon
             {
                 _Times.Items.Add(String.Format("{0}\t{1:hh\\:mm\\:ss\\.ff}", record.StartNumber, record.Time));
             }
+            _Count.Text = _TimesSource.Count.ToString();
         }
 
         public TimeRecord[] GetTimes()
