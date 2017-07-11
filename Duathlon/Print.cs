@@ -169,16 +169,15 @@ namespace Duathlon
             _Filter.SelectedIndex = 0;
             PrintAction = () =>
             {
-                int startNumber;
-                if (_Filter.SelectedIndex == 0)
+                if (Int32.TryParse(_Filter.SelectedItem.ToString().Split('-')[0], out int startNumber))
+                    PrintCertificate(_Starters[startNumber - 1]);
+                else if (_Filter.SelectedIndex == 0)
                     PrintCertificate(_Starters.Starters.Where(s => Competition.Mains.HasFlag(s.Competition) && s.Place > 0 && s.Place < 4));
                 else if (_Filter.SelectedIndex == 1)
                     PrintCertificate(_Starters.Starters.Where(s => Competition.Subs.HasFlag(s.Competition) && s.Place > 0 && s.Place < 4));
                 else if (_Filter.SelectedIndex == 2)
                     PrintCertificate(_Starters.Starters.Where(s => Competition.Children.HasFlag(s.Competition) && s.Place > 0 && s.Place < 4));
 
-                else if (Int32.TryParse(_Filter.SelectedItem.ToString().Split('-')[0], out startNumber))
-                    PrintCertificate(_Starters[startNumber - 1]);
                 else
                     MessageBox.Show("Error while parsing starter to print");
             };
