@@ -303,53 +303,6 @@ namespace Duathlon
                 process.WaitForExit();
             }
         }
-
-        //private void PrintCertificate(Starter starter)
-        //{
-        //    Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
-        //    wordApp.Visible = false;
-        //    string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\template.docx");
-
-        //    Microsoft.Office.Interop.Word.Document document = WordReplace(
-        //        path,
-        //        wordApp,
-        //        new StringReplacement("{FirstName}", starter.Self.FirstName),
-        //        new StringReplacement("{LastName}", starter.Self.LastName),
-        //        new StringReplacement("{Club}", starter.Self.Club),
-        //        new StringReplacement("{RelayFirstName}", starter.Partner.FirstName),
-        //        new StringReplacement("{RelayLastName}", starter.Partner.LastName)
-
-        //        );
-
-        //    document.PrintOut();
-
-        //    document.Close(false);
-
-        //    wordApp.Quit();
-        //}
-
-        //private Microsoft.Office.Interop.Word.Document WordReplace(string path, Microsoft.Office.Interop.Word.Application wordApp, params StringReplacement[] replacements)
-        //{
-        //    Microsoft.Office.Interop.Word.Document document = wordApp.Documents.Open(path);
-        //    Microsoft.Office.Interop.Word.Find findObject = wordApp.Selection.Find;
-
-        //    foreach (StringReplacement replacement in replacements)
-        //        ReplaceString(replacement, findObject);
-
-        //    //document.Save();
-        //    return document;
-        //}
-
-        //private void ReplaceString(StringReplacement replacement, Microsoft.Office.Interop.Word.Find findObject)
-        //{
-        //    findObject.ClearFormatting();
-        //    findObject.Text = replacement.OldString;
-        //    findObject.Replacement.ClearFormatting();
-        //    findObject.Replacement.Text = replacement.NewString;
-
-        //    object replaceAll = Microsoft.Office.Interop.Word.WdReplace.wdReplaceAll;
-        //    findObject.Execute(Replace: replaceAll);
-        //}
     }
 
     internal class StringReplacement

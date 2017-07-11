@@ -66,44 +66,6 @@ namespace Duathlon
             CreateRankingSwim(competition);
             CreateRankingRun(competition);
             CreateRankingOverall(competition);
-            //List<int> indexesSwim = new List<int>();
-            //List<int> indexesRun = new List<int>();
-            //List<int> indexesOverall = new List<int>();
-            ////sort swim
-            //for (int i = 0; i < _Starters.Length; i++)
-            //{
-            //    if (!_Starters[i].HasValue)
-            //        continue;
-            //    if (_Starters[i].Competition == competition && _Starters[i].SwimTime.Ticks != 0)
-            //        indexesSwim.Add(i);
-            //}
-            //InsertionSort(ref indexesSwim, (x, y) => _Starters[x].SwimTime.CompareTo(_Starters[y].SwimTime)); /\
-            //for (int i = 0; i < indexesSwim.Count; i++)                                                      //\\
-            //    _Starters[indexesSwim[i]].SwimPlace = i + 1;                                                //  \\
-            ////sort run                                                                                     //    \\
-            //for (int i = 0; i < _Starters.Length; i++)                                                    //      \\
-            //{                                                                                            //        \\
-            //    if (!_Starters[i].HasValue)                                                             //          \\
-            //        continue;                                                                          //            \\
-            //    if (_Starters[i].Competition == competition && _Starters[i].RunTime.Ticks != 0)       //              \\
-            //    {                                                                                     \\              //
-            //        indexesRun.Add(i);                                                                 \\            //
-            //    }                                                                                       \\          //
-            //}                                                                                            \\        //
-            //InsertionSort(ref indexesRun, (x, y) => _Starters[x].RunTime.CompareTo(_Starters[y].RunTime));\\      //
-            //for (int i = 0; i < indexesRun.Count; i++)                                                     \\    //
-            //    _Starters[indexesRun[i]].RunPlace = i + 1;                                                  \\  //
-            ////sort overall                                                                                   \\//
-            //for (int i = 0; i < _Starters.Length; i++)                                                        \/
-            //{
-            //    if (!_Starters[i].HasValue)
-            //        continue;
-            //    if (_Starters[i].Competition == competition && _Starters[i].Time.Ticks != 0)
-            //        indexesOverall.Add(i);
-            //}
-            //InsertionSort(ref indexesOverall, (x, y) => _Starters[x].Time.CompareTo(_Starters[y].Time));
-            //for (int i = 0; i < indexesOverall.Count; i++)
-            //    _Starters[indexesOverall[i]].Place = i + 1;
         }
 
         private void CreateRankingSwim(Competition competition)
@@ -134,12 +96,12 @@ namespace Duathlon
             {
                 if (!_Starters[i].HasValue)
                     continue;
-                if (_Starters[i].Competition == competition && getTime(i).Ticks != 0)//_Starters[i].SwimTime.Ticks != 0)
+                if (_Starters[i].Competition == competition && getTime(i).Ticks != 0)
                     indexes.Add(i);
             }
-            InsertionSort(ref indexes, (x, y) => getTime(x).CompareTo(getTime(y)));//_Starters[x].SwimTime.CompareTo(_Starters[y].SwimTime));
+            InsertionSort(ref indexes, (x, y) => getTime(x).CompareTo(getTime(y)));
             for (int i = 0; i < indexes.Count; i++)
-                assignPlace(indexes[i], i + 1);//_Starters[indexes[i]].SwimPlace = i + 1;
+                assignPlace(indexes[i], i + 1);
         }
 
         private void InsertionSort(ref List<int> input, Func<int, int, int> comparer)
@@ -150,7 +112,6 @@ namespace Duathlon
 
                 while (j > 0)
                 {
-                    //if (inputarray[j-1] > inputarray[j])
                     if (comparer(input[j - 1], input[j]) > 0)
                     {
                         int temp = input[j - 1];

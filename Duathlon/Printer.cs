@@ -190,7 +190,6 @@ namespace Duathlon
 
         public float MaxWidth(IEnumerable<T> collection, Font font, PrintPageEventArgs e)
         {
-            //return collection.Select(t => e.Graphics.MeasureString(GetCellString(t), font).Width).Max();
             return collection.Select(t => GetCellString(t)).Concat(new[] { Title }).Select(s => e.Graphics.MeasureString(s, font).Width).Max();
         }
     }

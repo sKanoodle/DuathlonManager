@@ -37,9 +37,6 @@ namespace Duathlon
 
         public int GetIndex(Starter starter)
         {
-            //var var = Starters.Select((s, i) => new Tuple<Starter, int>(s, i)).SingleOrDefault(t => starter == t.Item1);
-            //return var != null ? var.Item2 : -1;
-
             for (int index = 0; index < Starters.Length; index++)
                 if (starter == Starters[index])
                     return index;

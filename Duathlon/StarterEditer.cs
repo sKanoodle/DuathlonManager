@@ -24,8 +24,6 @@ namespace Duathlon
 
         private StarterWrapper _Starters;
         private Visualization _Grid;
-        //public bool Male { get; set; }
-        //public bool RelayMale { get; set; }
 
         /* UIElementCollection controls.Children
         **     [0] Label    startnumber
@@ -117,11 +115,6 @@ namespace Duathlon
             _Competition.ItemsSource = cbCompetitionContent;
             UpdatecbNo();
             EnableRelay(false);
-
-            //IsMale.DataContext = Male;
-            //IsFemale.DataContext = !Male;
-            //RelayIsMale.DataContext = RelayMale;
-            //RelayIsFemale.DataContext = !RelayMale;
         }
 
         public void SetToDefault()

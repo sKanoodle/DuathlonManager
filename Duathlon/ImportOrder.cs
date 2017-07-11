@@ -126,38 +126,6 @@ namespace Duathlon
                 return $"{head}{tail}";
 
             return $"{head} - {tail}";
-            //switch (competition)
-            //{
-            //    case Competition.None: return "keine Gruppe ausgewählt";
-            
-            //    case Competition.MainSingleMale: return "Hauptwettkampf - Einzel männlich";
-            //    case Competition.MainSingleFemale: return "Hauptwettkampf - Einzel weiblich";
-            //    case Competition.MainRelayMale: return "Hauptwettkampf - Staffel männlich";
-            //    case Competition.MainRelayFemale: return "Hauptwettkampf - Staffel weiblich";
-            //    case Competition.MainRelayMixed: return "Hauptwettkampf - Staffel mixed";
-            
-            //    case Competition.SubSingleMale: return "Jedermannwettkampf - Einzel männlich";
-            //    case Competition.SubSingleFemale: return "Jedermannwettkampf - Einzel weiblich";
-            //    case Competition.SubRelay: return "Jedermannwettkampf - Staffel";
-            
-            //    case Competition.ChildSmallMale: return $"Kinderwettkampf - {(currentYear - 10).ToString()}/{(currentYear - 9).ToString()} männlich";
-            //    case Competition.ChildSmallFemale: return $"Kinderwettkampf - {(currentYear - 10).ToString()}/{(currentYear - 9).ToString()} weiblich";
-            //    case Competition.ChildMediumMale: return $"Kinderwettkampf - {(currentYear - 12).ToString()}/{(currentYear - 11).ToString()} männlich";
-            //    case Competition.ChildMediumFemale: return $"Kinderwettkampf - {(currentYear - 12).ToString()}/{(currentYear - 11).ToString()} weiblich";
-            //    case Competition.ChildBigMale: return $"Kinderwettkampf - {(currentYear - 13).ToString()} männlich";
-            //    case Competition.ChildBigFemale: return $"Kinderwettkampf - {(currentYear - 13).ToString()} weiblich";
-            
-            //    case Competition.MainsSingle: return "Hauptwettkampf - Einzel";
-            //    case Competition.MainsRelay: return "Hauptwettkampf - Staffel";
-            //    case Competition.Mains: return "Hauptwettkampf";
-            //    case Competition.SubsSingle: return "Jedermannwettkampf - Einzel";
-            //    case Competition.Subs: return "Jedermannwettkampf";
-            //    case Competition.ChildrenMale: return "Kinderwettkampf - männlich";
-            //    case Competition.ChildrenFemale: return "Kinderwettkampf - weiblich";
-            //    case Competition.Children: return "Kinderwettkampf";
-
-            //    default: return null;
-            //}
         }
 
         public static string CompetitionLocalizationHead(Competition competition)
