@@ -261,7 +261,8 @@ namespace Duathlon
                 new StringReplacement("RunTime", starter.RunTime.ToString(_TimeFormat)),
                 new StringReplacement("TotalTime", starter.Time.ToString(_TimeFormat))
             );
-            StartPrintingProcess(documentPath, printer);
+            int copyCount = String.IsNullOrWhiteSpace(starter.TeamName) ? 1 : 2;
+            StartPrintingProcess(documentPath, printer, copyCount);
             File.Delete(documentPath);
         }
 
@@ -283,7 +284,7 @@ namespace Duathlon
             }
         }
 
-        private static void StartPrintingProcess(string docPath, string printer)
+        private static void StartPrintingProcess(string docPath, string printer, int copyCount = 1)
         {
             System.Windows.Forms.PrintDialog printDialog = new System.Windows.Forms.PrintDialog();
             if (printer == null)
@@ -295,8 +296,12 @@ namespace Duathlon
             info.WindowStyle = ProcessWindowStyle.Hidden;
             info.Verb = "Printto";
             info.UseShellExecute = true;
-            Process process = Process.Start(info);
-            process.WaitForExit();
+
+            while (copyCount-- > 0)
+            {
+                Process process = Process.Start(info);
+                process.WaitForExit();
+            }
         }
 
         //private void PrintCertificate(Starter starter)
