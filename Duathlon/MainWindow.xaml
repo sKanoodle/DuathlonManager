@@ -258,6 +258,8 @@
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="20" />
                                 <RowDefinition Height="auto" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="auto" />
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
@@ -314,10 +316,16 @@
                             <ComboBox x:Name="cbOrderEMail"
                                       Grid.Column="3"
                                       Grid.Row="15"/>
+                            <Label Content="Bezahlungsstatus"
+                                   Grid.Column="1"
+                                   Grid.Row="17" />
+                            <ComboBox x:Name="cbOrderPaymentInfo"
+                                      Grid.Column="3"
+                                      Grid.Row="17"/>
                             <Button x:Name="cmdOrderApply"
                                     Content="Anwenden"
                                     Grid.Column="3"
-                                    Grid.Row="17" />
+                                    Grid.Row="19" />
                         </Grid>
                     </StackPanel>
                 </Grid>

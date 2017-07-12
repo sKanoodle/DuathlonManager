@@ -48,7 +48,7 @@ namespace Duathlon
             _Filter = new CBFilter(_Grid, cb1, cb2);
             _Edit = new StarterEditer(tiEdit.Content as Grid, Edit, Delete, ref _Starters, _Grid);
             _Print = new Print(ref _Starters, cbPrintCompetition, cbPrintFilter, tbPrintSearch, cmdPrint);
-            _Orderer = new OrderDefinition(cbOrderFirstName, cbOrderLastName, cbOrderGender, cbOrderYoB, cbOrderTeamName, cbOrderCompetition, cbOrderClub, cbOrderEMail, cmdOrderApply);
+            _Orderer = new OrderDefinition(cbOrderFirstName, cbOrderLastName, cbOrderGender, cbOrderYoB, cbOrderTeamName, cbOrderCompetition, cbOrderClub, cbOrderEMail, cbOrderPaymentInfo, cmdOrderApply);
             StarterIO.NameChanged += ChangeProgramTitle;
 
             SetYear(_Starters.CurrentYear);

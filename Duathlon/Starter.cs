@@ -35,6 +35,9 @@ namespace Duathlon
         
         public TimeSpan Time { get; set; }
 
+        [JsonIgnore]
+        public int StartNumberHack { get; set; }
+
         public bool Contains(string s)
         {
             s = s.Trim().ToLower();

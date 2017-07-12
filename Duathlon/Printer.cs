@@ -188,6 +188,13 @@ namespace Duathlon
             DoAlignRight = doAlignRight;
         }
 
+        public PrintColumn(string title, Func<T, object> getString, bool doAlignRight = false)
+        {
+            Title = title;
+            GetCellString = t => getString(t).ToString();
+            DoAlignRight = doAlignRight;
+        }
+
         public float MaxWidth(IEnumerable<T> collection, Font font, PrintPageEventArgs e)
         {
             return collection.Select(t => GetCellString(t)).Concat(new[] { Title }).Select(s => e.Graphics.MeasureString(s, font).Width).Max();

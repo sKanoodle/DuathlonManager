@@ -39,7 +39,7 @@ namespace Duathlon
             _Print.Click += Print_Click;
             _Search.TextChanged += Search_TextChanged;
 
-            _PrintMode.ItemsSource = new[] { "Voranmeldung", "Ergebnisse", "Urkunde" };
+            _PrintMode.ItemsSource = new[] {"Online-Anmeldung", "Voranmeldung", "Ergebnisse", "Urkunde" };
             _PrintMode.SelectedIndex = 0;
 
             _CompletePrintList = (sw) => new[]
@@ -76,15 +76,26 @@ namespace Duathlon
             switch (_PrintMode.SelectedIndex)
             {
                 case 0:
-                    PrepareSignUpPrint();
+                    PrepareRegistrationPrint();
                     break;
                 case 1:
-                    PrepareResultPrint();
+                    PrepareSignUpPrint();
                     break;
                 case 2:
+                    PrepareResultPrint();
+                    break;
+                case 3:
                     PrepareCertificatePrint();
                     break;
             }
+        }
+
+        private void PrepareRegistrationPrint()
+        {
+            _Search.IsEnabled = false;
+            _Search.Text = String.Empty;
+            _Filter.ItemsSource = null;
+            PrintAction = () => PrintRegistration();
         }
 
         private void PrepareSignUpPrint()
@@ -192,6 +203,45 @@ namespace Duathlon
             PrintAction();
         }
 
+        private void PrintRegistration()
+        {
+            IEnumerable<Starter> splitRelay(Starter[] s)
+            {
+                for (int i = 0; i < s.Length; i++)
+                {
+                    if (!s[i].HasValue)
+                        continue;
+                    s[i].StartNumberHack = i + 1;
+                    yield return s[i];
+                    if (!String.IsNullOrWhiteSpace(s[i].TeamName))
+                    {
+                        Starter temp = new Starter();
+                        temp.Self = s[i].Partner;
+                        temp.TeamName = s[i].TeamName;
+                        temp.Competition = s[i].Competition;
+                        temp.StartNumberHack = i + 1;
+                        temp.HasValue = true;
+                        yield return temp;
+                    }
+                }
+            };
+
+            _Printer.Print(new PrintJob<Starter>(
+                sa => splitRelay(sa).ToArray(),
+                "Online-Anmeldungen",
+                new PrintColumn<Starter>("NR", s => s.StartNumberHack, doAlignRight: true),
+                new PrintColumn<Starter>("Vorname", s => s.Self.FirstName),
+                new PrintColumn<Starter>("Nachname", s => s.Self.LastName),
+                new PrintColumn<Starter>("m\\w", s => s.Self.IsMale ? "m" : "w"),
+                new PrintColumn<Starter>("JG", s => s.Self.YoB),
+                new PrintColumn<Starter>("Wettkampf", s => Statics.CompetitionLocalization(s.Competition, CurrentYear)),
+                new PrintColumn<Starter>("Teamname", s => s.TeamName),
+                new PrintColumn<Starter>("Verein", s => s.Self.Club),
+                new PrintColumn<Starter>("Email", s => s.Self.E_Mail),
+                new PrintColumn<Starter>("Startgebühr", s => s.Self.PaymentInfo),
+                new PrintColumn<Starter>("Unterschrift (Einverständniserklärung)", s => null)));
+        }
+
         private void PrintSignUp(Competition competitionFilter)
         {
             _Printer.Print(new PrintJob<Starter>(
@@ -201,7 +251,7 @@ namespace Duathlon
                 new PrintColumn<Starter>("Vorname", s => String.IsNullOrWhiteSpace(s.TeamName) ? s.Self.FirstName : s.Self.LastName),
                 new PrintColumn<Starter>("Nachname", s => String.IsNullOrWhiteSpace(s.TeamName) ? s.Self.LastName : s.Partner.LastName),
                 new PrintColumn<Starter>("m\\w", s => s.Self.IsMale == true ? "m" : "w"),
-                new PrintColumn<Starter>("JG", s => s.Self.YoB.ToString()),
+                new PrintColumn<Starter>("JG", s => s.Self.YoB),
                 new PrintColumn<Starter>("Verein", s => s.Self.Club)));
         }
 
@@ -215,7 +265,7 @@ namespace Duathlon
                 new PrintColumn<Starter>("Vorname", s => String.IsNullOrWhiteSpace(s.TeamName) ? s.Self.FirstName : s.Self.LastName),
                 new PrintColumn<Starter>("Nachname", s => String.IsNullOrWhiteSpace(s.TeamName) ? s.Self.LastName : s.Partner.LastName),
                 new PrintColumn<Starter>("m\\w", s => s.Self.IsMale ? "m" : "w"),
-                new PrintColumn<Starter>("JG", s => s.Self.YoB.ToString()),
+                new PrintColumn<Starter>("JG", s => s.Self.YoB),
                 new PrintColumn<Starter>("Verein", s => s.Self.Club),
                 new PrintColumn<Starter>("SW Zeit", s => s.SwimTime.ToString(_TimeFormat)),
                 new PrintColumn<Starter>("SW Pl", s => s.SwimPlace.ToString(), doAlignRight: true),

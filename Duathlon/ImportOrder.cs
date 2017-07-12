@@ -19,6 +19,7 @@ namespace Duathlon
         Competition,
         Club,
         EMail,
+        PaymentInfo,
     }
 
     public enum TabItems
@@ -95,6 +96,7 @@ namespace Duathlon
                 [ImportField.Competition] = 6,
                 [ImportField.Club] = 7,
                 [ImportField.EMail] = 8,
+                [ImportField.PaymentInfo] = 9,
             };
             MissingStartNumbers = new List<int>();
             GoogleAuthCredentials = new GoogleAuthCredentials
@@ -228,9 +230,9 @@ namespace Duathlon
     class OrderDefinition
     {
         private Button _Apply;
-        private ComboBox[] Boxes = new ComboBox[8];
+        private ComboBox[] Boxes = new ComboBox[9];
 
-        public OrderDefinition(ComboBox firstName, ComboBox lastName, ComboBox gender, ComboBox yoB, ComboBox teamName, ComboBox competition, ComboBox club, ComboBox email, Button apply)
+        public OrderDefinition(ComboBox firstName, ComboBox lastName, ComboBox gender, ComboBox yoB, ComboBox teamName, ComboBox competition, ComboBox club, ComboBox email, ComboBox paymentInfo, Button apply)
         {
             Boxes[(int)ImportField.FirstName] = firstName;
             Boxes[(int)ImportField.LastName] = lastName;
@@ -240,6 +242,7 @@ namespace Duathlon
             Boxes[(int)ImportField.Competition] = competition;
             Boxes[(int)ImportField.Club] = club;
             Boxes[(int)ImportField.EMail] = email;
+            Boxes[(int)ImportField.PaymentInfo] = paymentInfo;
             _Apply = apply;
 
             _Apply.Click += Apply_Click;

@@ -10,6 +10,7 @@ namespace Duathlon
         public bool IsMale { get; set; } //0 - female, 1 - male
         public int YoB { get; set; } //year of birth
         public string E_Mail { get; set; }
+        public string PaymentInfo { get; set; }
 
         public bool Contains(string s)
         {

@@ -179,6 +179,7 @@ namespace Duathlon
             person.LastName = data[index, ImportOrder[ImportField.LastName]];
             person.Club = data[index, ImportOrder[ImportField.Club]];
             person.E_Mail = data[index, ImportOrder[ImportField.EMail]];
+            person.PaymentInfo = data[index, ImportOrder[ImportField.PaymentInfo]];
 
             if (data[index, ImportOrder[ImportField.Gender]] == "männlich")
                 person.IsMale = true;
