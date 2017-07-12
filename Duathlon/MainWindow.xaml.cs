@@ -53,19 +53,6 @@ namespace Duathlon
 
             SetYear(_Starters.CurrentYear);
 
-            Dictionary<Image, string> initPics = new Dictionary<Image, string>
-            {
-                [imgNewDoc] = "newDoc.png",
-                [imgSave] = "save.png",
-                [imgSaveAs] = "saveAs.png",
-                [imgOpen] = "open.png",
-            };
-
-            foreach (var kvp in initPics)
-            {
-                kvp.Key.Source = new BitmapImage(new Uri($"images/{kvp.Value}", UriKind.Relative));
-            }
-
             tbCurrentYear.Text = _Starters.CurrentYear.ToString();
             tbCurrentYear.TextChanged += CurrentYearInput_Changed;
 

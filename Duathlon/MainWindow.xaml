@@ -97,32 +97,27 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel>
-            <Button x:Name="cmdNewDoc"
-                    ToolTip="Neues Dokument"
+            <Button ToolTip="Neues Dokument"
                     Style="{StaticResource MenuButton}" 
                     Click="cmdNewDoc_Click">
-                <Image x:Name="imgNewDoc" />
+                <Image Source="images/newDoc.png"/>
             </Button>
-            <Button x:Name="cmdSave" 
-                    ToolTip="Speichern..."
+            <Button ToolTip="Speichern..."
 				    Style="{StaticResource MenuButton}"
 				    Click="cmdSave_Click">
-                <Image x:Name="imgSave" />
+                <Image Source="images/save.png"/>
             </Button>
-            <Button x:Name="cmdSaveAs" 
-                    ToolTip="Speichern Unter..."
+            <Button ToolTip="Speichern Unter..."
 				    Style="{StaticResource MenuButton}"
 				    Click="cmdSaveAs_Click">
-                <Image x:Name="imgSaveAs" />
+                <Image Source="images/saveAs.png"/>
             </Button>
-            <Button x:Name="cmdOpen" 
-                    ToolTip="Öffnen..."
+            <Button ToolTip="Öffnen..."
 				    Style="{StaticResource MenuButton}"
 				    Click="cmdOpen_Click">
-                <Image x:Name="imgOpen" />
+                <Image Source="images/open.png"/>
             </Button>
-            <Button x:Name="cmdTest"
-                    ToolTip="Dev Testing"
+            <Button ToolTip="Dev Testing"
                     Style="{StaticResource MenuButton}"
                     Click="cmdTest_Click" />
         </StackPanel>
