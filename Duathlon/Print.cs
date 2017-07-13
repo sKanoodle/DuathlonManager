@@ -92,10 +92,18 @@ namespace Duathlon
 
         private void PrepareRegistrationPrint()
         {
+            Competition[] items = { Competition.MainsSingle, Competition.MainsRelay, Competition.SubsSingle, Competition.SubRelay, Competition.Children };
             _Search.IsEnabled = false;
             _Search.Text = String.Empty;
-            _Filter.ItemsSource = null;
-            PrintAction = () => PrintRegistration();
+            _Filter.ItemsSource = new[] { "alle" }.Concat(items.Select(i => CompetitionLocalization(i, CurrentYear))).ToArray();
+            _Filter.SelectedIndex = 0;
+            PrintAction = () =>
+            {
+                if (_Filter.SelectedIndex == 0)
+                    PrintRegistration(items);
+                else
+                    PrintRegistration(items[_Filter.SelectedIndex - 1]);
+            };
         }
 
         private void PrepareSignUpPrint()
@@ -203,7 +211,7 @@ namespace Duathlon
             PrintAction();
         }
 
-        private void PrintRegistration()
+        private PrintJob<Starter> RegistrationPrintJob(Competition competitionFilter)
         {
             IEnumerable<Starter> splitRelay(Starter[] s)
             {
@@ -226,20 +234,27 @@ namespace Duathlon
                 }
             };
 
-            _Printer.Print(new PrintJob<Starter>(
-                sa => splitRelay(sa).ToArray(),
-                "Online-Anmeldungen",
+            return new PrintJob<Starter>(
+                sa => splitRelay(sa).Where(s => competitionFilter.HasFlag(s.Competition)).OrderBy(s => s.Self.LastName).ToArray(),
+                $"Online-Anmeldungen {CompetitionLocalization(competitionFilter, CurrentYear)}",
                 new PrintColumn<Starter>("NR", s => s.StartNumberHack, doAlignRight: true),
                 new PrintColumn<Starter>("Vorname", s => s.Self.FirstName),
                 new PrintColumn<Starter>("Nachname", s => s.Self.LastName),
                 new PrintColumn<Starter>("m\\w", s => s.Self.IsMale ? "m" : "w"),
                 new PrintColumn<Starter>("JG", s => s.Self.YoB),
-                new PrintColumn<Starter>("Wettkampf", s => Statics.CompetitionLocalization(s.Competition, CurrentYear)),
                 new PrintColumn<Starter>("Teamname", s => s.TeamName),
-                new PrintColumn<Starter>("Verein", s => s.Self.Club),
-                new PrintColumn<Starter>("Email", s => s.Self.E_Mail),
                 new PrintColumn<Starter>("Startgebühr", s => s.Self.PaymentInfo),
-                new PrintColumn<Starter>("Unterschrift (Einverständniserklärung)", s => null)));
+                new PrintColumn<Starter>("Unterschrift (Einverständniserklärung)", s => null));
+        }
+
+        private void PrintRegistration(Competition competition)
+        {
+            _Printer.Print(RegistrationPrintJob(competition));
+        }
+
+        private void PrintRegistration(Competition[] competitions)
+        {
+            _Printer.MultiPrint(competitions.Select(c => RegistrationPrintJob(c)).ToArray());
         }
 
         private void PrintSignUp(Competition competitionFilter)
