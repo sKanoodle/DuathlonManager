@@ -133,10 +133,10 @@ namespace Duathlon
             foreach (TimeRecord record in totalTimes)
                 _Starters[record.StartNumber - 1].Time = record.Time;
 
-            StarterIO.IsSaved = false;
             _Grid.CreateRankings();
             _Grid.Render(~Competition.None);
             _Grid.SelectTab(TabItems.Overview);
+            StarterIO.IsSaved = false;
         }
 
         private bool IsStartnumberPossible(TimeRecord record)

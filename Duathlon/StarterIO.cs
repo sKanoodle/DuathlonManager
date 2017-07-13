@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace Duathlon
 {
-    class StarterIO
+    static class StarterIO
     {
         private static string _Path;
         private static string Path
@@ -29,7 +29,34 @@ namespace Duathlon
             }
         }
 
-        public static bool IsSaved { get; set; } = true;
+        private static bool _DoAutoSave;
+        public static bool DoAutoSave
+        {
+            get => _DoAutoSave;
+            set
+            {
+                _DoAutoSave = value;
+                if (_DoAutoSave)
+                    Save(GetStarters());
+            }
+        }
+        public static Func<StarterWrapper> GetStarters { get; set; }
+
+        private static bool _IsSaved = true;
+        public static bool IsSaved
+        {
+            get => _IsSaved;
+            set
+            {
+                _IsSaved = value;
+                if (!_IsSaved && DoAutoSave)
+                {
+                    Save(GetStarters());
+                    _IsSaved = true;
+                    return;
+                }
+            }
+        }
         public static bool IsDataExisting { get; set; }
 
         public static event EventHandler NameChanged;
@@ -66,7 +93,7 @@ namespace Duathlon
             {
                 return;
             }
-            if (Path != null && MessageBox.Show("Datei Überschreiben?", "Achtung", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (Path != null && DoAutoSave || MessageBox.Show("Datei Überschreiben?", "Achtung", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 SaveData(Path, starters);
                 IsSaved = true;

@@ -317,6 +317,7 @@ namespace Duathlon
             _Grid.Render(Competition.None);
             SetToDefault();
             _Grid.SelectTab(TabItems.Overview);
+            StarterIO.IsSaved = false;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

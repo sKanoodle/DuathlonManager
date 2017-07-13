@@ -50,6 +50,7 @@ namespace Duathlon
             _Print = new Print(ref _Starters, cbPrintCompetition, cbPrintFilter, tbPrintSearch, cmdPrint);
             _Orderer = new OrderDefinition(cbOrderFirstName, cbOrderLastName, cbOrderGender, cbOrderYoB, cbOrderTeamName, cbOrderCompetition, cbOrderClub, cbOrderEMail, cbOrderPaymentInfo, cmdOrderApply);
             StarterIO.NameChanged += ChangeProgramTitle;
+            StarterIO.GetStarters = () => _Starters;
 
             SetYear(_Starters.CurrentYear);
 
@@ -106,11 +107,11 @@ namespace Duathlon
             if (StarterIO.IsDataExisting && MessageBox.Show("Voranmeldung bereits eingelesen. Wenn Sie fortfahren werden alle bisher eingegebenen Daten gelöscht!", "Achtung!", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
                 return;
             _Starters.ReadBulkSignUp(GoogleImporter.GrabEntries());
-            StarterIO.IsDataExisting = true;
-            StarterIO.IsSaved= false;
             _Edit.UpdatecbNo();
             _Grid.Render(Competition.None);
             tabControl.SelectedItem = tiOverview;
+            StarterIO.IsDataExisting = true;
+            StarterIO.IsSaved= false;
         }
 
         private void cmdNewDoc_Click(object sender, RoutedEventArgs e)

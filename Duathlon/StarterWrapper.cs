@@ -29,9 +29,9 @@ namespace Duathlon
             }
             set
             {
+                Starters[i] = value;
                 StarterIO.IsDataExisting = true;
                 StarterIO.IsSaved = false;
-                Starters[i] = value;
             }
         }
 
