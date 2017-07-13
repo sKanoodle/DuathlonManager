@@ -145,6 +145,7 @@ namespace Duathlon
             _Filter.Reset();
             _Edit.SetToDefault();
             tabControl.SelectedItem = tiOverview;
+            StarterIO.IsSaved = true;
         }
 
         private void SetYear(int year, bool doSetOnTextBox = true)
