@@ -26,7 +26,7 @@ namespace Duathlon
 
         public Print(ref StarterWrapper starters, ComboBox printMode, ComboBox filter, TextBox search, Button print)
         {
-            GetDisplayText = s => $"{_Starters.GetIndex(s) + 1:000}-{(s.TeamName == String.Empty ? $"{s.Self.FirstName} {s.Self.LastName}" : $"{s.Self.LastName} {s.Partner.LastName}")}";
+            GetStarterDisplayText = s => $"{_Starters.GetIndex(s) + 1:000}-{(s.TeamName == String.Empty ? $"{s.Self.FirstName} {s.Self.LastName}" : $"{s.Self.LastName} {s.Partner.LastName}")}";
 
             _Starters = starters;
             _Printer = new Printer(ref _Starters);
@@ -39,7 +39,7 @@ namespace Duathlon
             _Print.Click += Print_Click;
             _Search.TextChanged += Search_TextChanged;
 
-            _PrintMode.ItemsSource = new[] {"Online-Anmeldung", "Voranmeldung", "Ergebnisse", "Urkunde" };
+            _PrintMode.ItemsSource = new[] { "Online-Anmeldung", "Voranmeldung", "Ergebnisse", "Urkunde" };
             _PrintMode.SelectedIndex = 0;
 
             _CompletePrintList = (sw) => new[]
@@ -51,14 +51,14 @@ namespace Duathlon
             .Concat(
                 sw.Starters
                 .Where(s => s.HasValue == true)
-                .Select(GetDisplayText)
+                .Select(GetStarterDisplayText)
             );
         }
 
         private void Search_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = _Search.Text;
-            if (_PrintMode.SelectedIndex != 2)
+            if (_PrintMode.SelectedIndex != 3)
                 return;
 
             if (String.IsNullOrWhiteSpace(text))
@@ -66,7 +66,7 @@ namespace Duathlon
             else
                 _Filter.ItemsSource = _Starters.Starters
                     .Where(s => s.HasValue == true && s.Contains(text))
-                    .Select(GetDisplayText);
+                    .Select(GetStarterDisplayText);
 
             _Filter.SelectedIndex = 0;
         }
@@ -90,12 +90,17 @@ namespace Duathlon
             }
         }
 
+        private IEnumerable<string> LocalizeCompetitions(IEnumerable<Competition> competitions)
+        {
+            return competitions.Select(c => CompetitionLocalization(c, CurrentYear));
+        }
+
         private void PrepareRegistrationPrint()
         {
             Competition[] items = { Competition.MainsSingle, Competition.MainsRelay, Competition.SubsSingle, Competition.SubRelay, Competition.Children };
             _Search.IsEnabled = false;
             _Search.Text = String.Empty;
-            _Filter.ItemsSource = new[] { "alle" }.Concat(items.Select(i => CompetitionLocalization(i, CurrentYear))).ToArray();
+            _Filter.ItemsSource = new[] { "alle" }.Concat(LocalizeCompetitions(items)).ToArray();
             _Filter.SelectedIndex = 0;
             PrintAction = () =>
             {
@@ -108,101 +113,62 @@ namespace Duathlon
 
         private void PrepareSignUpPrint()
         {
+            Competition[] items = { Competition.Mains, Competition.Subs, Competition.Children };
             _Search.IsEnabled = false;
             _Search.Text = String.Empty;
-            _Filter.ItemsSource = new[] { CompetitionLocalization(Competition.Mains, CurrentYear), CompetitionLocalization(Competition.Subs, CurrentYear), CompetitionLocalization(Competition.Children, CurrentYear) };
+            _Filter.ItemsSource = LocalizeCompetitions(items).ToArray();
             _Filter.SelectedIndex = 0;
             PrintAction = () =>
-                PrintSignUp(new[] { Competition.Mains, Competition.Subs, Competition.Children }[_Filter.SelectedIndex]);
+                PrintSignUp(items[_Filter.SelectedIndex]);
         }
 
         private void PrepareResultPrint()
         {
+            Competition[] items =
+            {
+                Competition.Mains,
+                Competition.Subs,
+                Competition.Children,
+                Competition.MainSingleMale,
+                Competition.MainSingleFemale,
+                Competition.MainRelayMale,
+                Competition.MainRelayFemale,
+                Competition.MainRelayMixed,
+                Competition.SubSingleMale,
+                Competition.SubSingleFemale,
+                Competition.SubRelay,
+                Competition.ChildSmallMale,
+                Competition.ChildSmallFemale,
+                Competition.ChildMediumMale,
+                Competition.ChildMediumFemale,
+                Competition.ChildBigMale,
+                Competition.ChildBigFemale,
+            };
             _Search.IsEnabled = false;
             _Search.Text = String.Empty;
-            _Filter.ItemsSource = new[]
-            {
-                CompetitionLocalization(Competition.Mains, CurrentYear),
-                CompetitionLocalization(Competition.Subs, CurrentYear),
-                CompetitionLocalization(Competition.Children, CurrentYear),
-                CompetitionLocalization(Competition.MainSingleMale, CurrentYear),
-                CompetitionLocalization(Competition.MainSingleFemale, CurrentYear),
-                CompetitionLocalization(Competition.MainRelayMale, CurrentYear),
-                CompetitionLocalization(Competition.MainRelayFemale, CurrentYear),
-                CompetitionLocalization(Competition.MainRelayMixed, CurrentYear),
-                CompetitionLocalization(Competition.SubSingleMale, CurrentYear),
-                CompetitionLocalization(Competition.SubSingleFemale, CurrentYear),
-                CompetitionLocalization(Competition.SubRelay, CurrentYear),
-                CompetitionLocalization(Competition.ChildSmallMale, CurrentYear),
-                CompetitionLocalization(Competition.ChildSmallFemale, CurrentYear),
-                CompetitionLocalization(Competition.ChildMediumMale, CurrentYear),
-                CompetitionLocalization(Competition.ChildMediumFemale, CurrentYear),
-                CompetitionLocalization(Competition.ChildBigMale, CurrentYear),
-                CompetitionLocalization(Competition.ChildBigFemale, CurrentYear)
-            };
+            _Filter.ItemsSource = LocalizeCompetitions(items).ToArray();
             _Filter.SelectedIndex = 0;
-            PrintAction = () =>
-            {
-                if (_Filter.SelectedIndex > 2)
-                    PrintResults(new[]
-                    {
-                        Competition.None,
-                        Competition.None,
-                        Competition.None,
-                        Competition.MainSingleMale,
-                        Competition.MainSingleFemale,
-                        Competition.MainRelayMale,
-                        Competition.MainRelayFemale,
-                        Competition.MainRelayMixed,
-                        Competition.SubSingleMale,
-                        Competition.SubSingleFemale,
-                        Competition.SubRelay,
-                        Competition.ChildSmallMale,
-                        Competition.ChildSmallFemale,
-                        Competition.ChildMediumMale,
-                        Competition.ChildMediumFemale,
-                        Competition.ChildBigMale,
-                        Competition.ChildBigFemale
-                    }[_Filter.SelectedIndex]);
-                else if (_Filter.SelectedIndex == 0)
-                {
-                    PrintResults(Competition.Mains);
-                }
-                else if (_Filter.SelectedIndex == 1)
-                {
-                    PrintResults(Competition.Subs);
-                }
-                else if (_Filter.SelectedIndex == 2)
-                {
-                    PrintResults(Competition.Children);
-                }
-            };
+            PrintAction = () => PrintResults(items[_Filter.SelectedIndex]);
         }
 
         private void PrepareCertificatePrint()
         {
+            Competition[] items = { Competition.Mains, Competition.Subs, Competition.Children };
             _Search.IsEnabled = true;
             _Search.Text = String.Empty;
             _Filter.ItemsSource = _CompletePrintList(_Starters);
-            
+
             _Filter.SelectedIndex = 0;
             PrintAction = () =>
             {
                 if (Int32.TryParse(_Filter.SelectedItem.ToString().Split('-')[0], out int startNumber))
                     PrintCertificate(_Starters[startNumber - 1]);
-                else if (_Filter.SelectedIndex == 0)
-                    PrintCertificate(_Starters.Starters.Where(s => Competition.Mains.HasFlag(s.Competition) && s.Place > 0 && s.Place < 4));
-                else if (_Filter.SelectedIndex == 1)
-                    PrintCertificate(_Starters.Starters.Where(s => Competition.Subs.HasFlag(s.Competition) && s.Place > 0 && s.Place < 4));
-                else if (_Filter.SelectedIndex == 2)
-                    PrintCertificate(_Starters.Starters.Where(s => Competition.Children.HasFlag(s.Competition) && s.Place > 0 && s.Place < 4));
-
                 else
-                    MessageBox.Show("Error while parsing starter to print");
+                    PrintCertificate(_Starters.Starters.Where(s => items[_Filter.SelectedIndex].HasFlag(s.Competition) && s.Place > 0 && s.Place < 4));
             };
         }
 
-        private Func<Starter, string> GetDisplayText;
+        private Func<Starter, string> GetStarterDisplayText;
 
         private Action PrintAction;
 
