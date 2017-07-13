@@ -280,6 +280,7 @@ namespace Duathlon
             }
 
             ImportOrder = result;
+            SaveSettings();
             MessageBox.Show("Reihenfolge erfolgreich geändert");
         }
 
