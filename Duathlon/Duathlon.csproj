@@ -60,19 +60,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DocumentFormat.OpenXml">
-      <HintPath>.\DocumentFormat.OpenXml.dll</HintPath>
+      <HintPath>.\dll\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="Google.GData.Client, Version=2.2.0.0, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Google.GData.Client.dll</HintPath>
+      <HintPath>.\dll\Google.GData.Client.dll</HintPath>
     </Reference>
     <Reference Include="Google.GData.Spreadsheets, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3f77feb76ff0d9a1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Google.GData.Spreadsheets.dll</HintPath>
+      <HintPath>.\dll\Google.GData.Spreadsheets.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Newtonsoft.Json.dll</HintPath>
+      <HintPath>.\dll\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
@@ -158,6 +158,12 @@
     <Resource Include="images\open.png" />
     <Resource Include="images\save.png" />
     <Resource Include="images\saveAs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="dll\DocumentFormat.OpenXml.dll" />
+    <EmbeddedResource Include="dll\Google.GData.Client.dll" />
+    <EmbeddedResource Include="dll\Google.GData.Spreadsheets.dll" />
+    <EmbeddedResource Include="dll\Newtonsoft.Json.dll" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icon.ico" />
